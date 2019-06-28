@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+		<!-- url="jdbc:oracle:thin:@172.17.107.68:1521:xe" -->
+	<Resource 
+		name="jdbc/myoracle" 
+		auth="Container"
+		type="javax.sql.DataSource"
+		driverClassName="oracle.jdbc.OracleDriver"
+		url="jdbc:oracle:thin:@172.17.107.68:1521:xe"
+		username="poing_project"
+		password="tiger" 
+		maxTotal="20"
+		maxIdle="10" 
+		maxWaitMillis="-1" />
+</Context>

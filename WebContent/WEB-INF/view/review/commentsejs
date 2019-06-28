@@ -1,0 +1,14 @@
+<div class="comment">
+	<a class="thumbnail" style="background-image:url('<%=profile_image.url%>')" href="/Poing/timeline.do?id=<%=user_id%>"></a>
+	<div class="author">
+        <p class="time"><%=created_at%></p>
+		<a class="name" href="/Poing/timeline.do?id=<%=user_id%>"><%=name%></a>
+		<p class="text"><%=contents%></p>
+        <% if (me) { %>
+            <div class="action">
+                <button type="button" class="edit" data-type="poing.reviews.comment.modify" data-id="<%=id%>">수정하기</button>
+                <button type="button" class="delete" data-type="poing.reviews.comment.remove" data-id="<%=id%>">삭제하기</button>
+            </div>
+        <% } %>
+	</div>
+</div>

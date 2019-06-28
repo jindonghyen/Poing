@@ -1,0 +1,63 @@
+--*************--
+--*거리계산 쿼리*--
+--*************--
+select * from (
+    SELECT address, ftype, menu
+            , trunc(( 6371 * acos( cos( RADIANS('37.51144545') ) * cos( RADIANS( lat ) )
+                * cos( RADIANS(lang) - RADIANS('127.04716193') )
+                + sin( RADIANS('37.5114454') ) * sin( RADIANS( lat) ) ) ),5) AS distance
+            , trunc(( 6371 * acos( cos( RADIANS('37.491358') ) * cos( RADIANS( lat ) )
+                * cos( RADIANS(lang) - RADIANS('127.036641') )
+                + sin( RADIANS('37.491358') ) * sin( RADIANS( lat) ) ) ),5) AS distance2
+          FROM test_rest
+          where ftype like '%한식%'      -- 음식 종류
+            and menu like '%참치%'  ) t  -- 검색어(매장명, 메뉴, 음식종류) 
+where t.distance < .5 or t.distance<2.4
+ORDER BY t.distance desc, t.distance2 desc;
+
+-- ver2 검색어로 한정 후 > 거리 계산
+select * from (
+    SELECT address, ftype, menu
+            , trunc(( 6371 * acos( cos( RADIANS('37.51144545') ) * cos( RADIANS( lat ) )
+                * cos( RADIANS(lang) - RADIANS('127.04716193') )
+                + sin( RADIANS('37.5114454') ) * sin( RADIANS( lat) ) ) ),5) AS distance
+            , trunc(( 6371 * acos( cos( RADIANS('37.491358') ) * cos( RADIANS( lat ) )
+                * cos( RADIANS(lang) - RADIANS('127.036641') )
+                + sin( RADIANS('37.491358') ) * sin( RADIANS( lat) ) ) ),5) AS distance2
+    FROM (select * from test_rest
+          where (ftype like '%한식%' or ftype like '%양식%')      -- 음식 종류
+            and (menu like '%참치%' or menu like '%파스타%'))     -- 검색어
+    ) t  
+where t.distance < .5 or t.distance<2.4
+ORDER BY t.distance desc, t.distance2 desc;
+
+
+
+--**********************--
+--*라디안함수 for 거리계산*--
+--**********************--
+CREATE OR REPLACE FUNCTION RADIANS(nDegrees IN NUMBER) 
+RETURN NUMBER DETERMINISTIC 
+IS
+BEGIN
+  /*
+  -- radians = degrees / (180 / pi)
+  -- RETURN nDegrees / (180 / ACOS(-1)); but 180/pi is a constant, so...
+  */
+  RETURN nDegrees / 57.29577951308232087679815481410517033235;
+END RADIANS;
+
+인기지역
+1. 지하철역: 강남역, 건대, 광화문, 대학로, 상수, 성수, 명동, 압구정, 양재,여의도,잠실,합정,홍대,이태원,
+2. 법정지역 : 남양주, 송도(연수구), 망원, 분당, 연남,종로,청담동, 한남동,문래,양평,인사동,일산
+3. 좌표지역 : 가로수길, 경리단길, 북촌, 샤로수길, 서래마을, 서촌, 을지로, 익선동, 해방촌
+
+
+---------------------------------------------------
+예약 업데이트
+
+select * from rest_reserve;
+
+update rest_reserve set r_reserve_date ='19-12-24', r_reserve_hour='20:00:00',  r_reserve_request = '에디트테스트1', r_reserve_num_of_people = 6  where r_reserve_num=18;
+rollback
+

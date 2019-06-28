@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>Poing</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+	<servlet>
+		<servlet-name>jsp</servlet-name>
+		<servlet-class>org.apache.jasper.servlet.JspServlet</servlet-class>
+		<init-param>
+			<param-name>mappedfile</param-name>
+			<param-value>false</param-value>
+		</init-param>
+	</servlet>
+
+  
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/view/errorpage/404error.jsp</location>
+  </error-page>
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/view/errorpage/500error.jsp</location>
+  </error-page>
+  
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+  
+  <resource-ref>
+    <description>Oracle Datasource example</description>
+    <res-ref-name>jdbc/myoracle</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+  
+  <filter>
+    <filter-name>encodingFile</filter-name>
+    <filter-class>com.filter.CharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>encodingFile</filter-name>
+    <url-pattern>*.do</url-pattern>
+    <url-pattern>*.ad</url-pattern>
+    <url-pattern>*.ow</url-pattern>
+  </filter-mapping>
+  
+  <filter>
+    <filter-name>checkOwnerLogin</filter-name>
+    <filter-class>com.filter.OwnerLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>checkOwnerLogin</filter-name>
+    <url-pattern>/owner/index.ow</url-pattern>
+    <url-pattern>/owner/rest_image.ow</url-pattern>
+    <url-pattern>/owner/rest_menu.ow</url-pattern>
+    <url-pattern>/owner/review_tables.ow</url-pattern>
+  </filter-mapping>
+   
+  <servlet>
+    <servlet-name>ControllerUsingURI</servlet-name>
+    <servlet-class>poing.mvc.ControllerUsingURI</servlet-class>
+    <init-param>
+      <param-name>configFile</param-name>
+      <param-value>/WEB-INF/commandHandler.properties</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerUsingURI</servlet-name>
+    <url-pattern>*.do</url-pattern> 
+    <url-pattern>*.ejs</url-pattern> 
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ControllerUsingURIOwner</servlet-name>
+    <servlet-class>owner.mvc.OwnerControllerUsingURI</servlet-class>
+    <init-param>
+      <param-name>configFile</param-name>
+      <param-value>/WEB-INF/owner/commandHandlerForOwner.properties</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerUsingURIOwner</servlet-name>
+    <url-pattern>*.ow</url-pattern> 
+  </servlet-mapping>
+  
+  
+  <filter>
+    <filter-name>checkAdminLogin</filter-name>
+    <filter-class>com.filter.AdminLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>checkAdminLogin</filter-name>
+    <url-pattern>/admin/index.ad</url-pattern>
+    <url-pattern>/admin/banner_image.ad</url-pattern>
+    <url-pattern>/admin/banner_image_remove.ad</url-pattern>
+    <url-pattern>/admin/banner_image_add.ad</url-pattern>
+    <url-pattern>/admin/banner_image_move.ad</url-pattern>
+    <url-pattern>/admin/editer_mypage.ad</url-pattern>
+    <url-pattern>/admin/editer_image_change.ad</url-pattern>
+    <url-pattern>/admin/editer_image_change.ad</url-pattern>
+    <url-pattern>/admin/editer_image_change.ad</url-pattern>
+    <url-pattern>/admin/product_banner.ad</url-pattern>
+    <url-pattern>/admin/move_product_banner.ad</url-pattern>
+    <url-pattern>/admin/add_product_banner.ad</url-pattern>
+    <url-pattern>/admin/modify_product_banner.ad</url-pattern>
+  </filter-mapping>
+  
+  <servlet>
+    <servlet-name>ControllerUsingURIAdmin</servlet-name>
+    <servlet-class>admin.mvc.AdminControllerUsingURI</servlet-class>
+    <init-param>
+      <param-name>configFile</param-name>
+      <param-value>/WEB-INF/admin/commandHandlerForAdmin.properties</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ControllerUsingURIAdmin</servlet-name>
+    <url-pattern>*.ad</url-pattern> 
+  </servlet-mapping>
+	
+  
+</web-app>

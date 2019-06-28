@@ -1,0 +1,25 @@
+<% if(notices.length > 0) { %>
+	<% for(var i in notices) { 
+		var notice = notices[i]; 
+		notice.target_id = notice.target_id? notice.target_id : ''; 
+		notice.contents = ((notice.push_type != "fb_join")? notice.wuname+"님께서 ":'') + notice.contents;
+		if(notice.image.thumbnail && notice.image.thumbnail.url)
+			notice.thumbnail = notice.image.thumbnail.url;
+		else 
+			notice.thumbnail = 'http://c1.poing.co.kr/original/images/common/default_profile_162.png'; %>
+		<div class='item' data-type='<%=notice.push_type%>' data-target='<%=notice.target_id%>' data-additional='<%=notice.additional%>'>
+			<div class='thumbnail'>
+				<i class='image border_radius circle' style='background-image:url(<%=notice.thumbnail%>)'></i>
+			</div>
+			<div class='message'><%=notice.contents%></div>
+			<div class='logger'><%=notice.created_at%></div>
+		</div>
+	<% } %>
+<% } else { %>
+	<div class='item blank'>
+		<div class='thumbnail'>
+			<i class='image border_radius circle' style='background-image:url(http://c1.poing.co.kr/original/images/common/default_profile_162.png)'></i>
+		</div>
+		<div class='message'>ë‚´ ì†Œì‹ì´ ì—†ìŠµë‹ˆë‹¤.</div>
+	</div>
+<% } %>

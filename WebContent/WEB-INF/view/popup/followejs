@@ -1,0 +1,14 @@
+<li class="new" data-id="<%=id%>">
+	<a class="image" href="/Poing/timeline.do?id=<%=id%>" style="background-image:url(<%=profile%>)"></a>
+	<div class="detail">
+		<a class="name" href="/Poing/timeline.do?id=<%=id%>"><%=web_name%></a>
+		<span class="count"><%=review_count%> 리뷰, <span id="follow"><%=follower_count%></span> 팔로워</span>
+
+		<% if(!me) { %>
+			<button class="gray_red_fill border_radius soft <%=state%>" data-type="poing.user.follow" data-id="<%=id%>">
+				<i class="icon follow <%=state%>"></i>
+				<span>팔로우</span>
+			</button>
+		<% } %>
+	</div>
+</li>
